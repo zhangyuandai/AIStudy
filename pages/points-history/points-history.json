@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "积分明细",
+  "usingComponents": {
+    "points-card": "/components/points-card/points-card",
+    "points-record-item": "/components/points-record-item/points-record-item",
+    "empty-state": "/components/empty-state/empty-state"
+  }
+}

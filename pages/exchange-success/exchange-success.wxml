@@ -1,0 +1,92 @@
+<!-- 兑换成功页面 -->
+<view class="page">
+  <!-- 成功动画区 -->
+  <view class="success-section">
+    <view class="success-icon">
+      <text>🎉</text>
+    </view>
+    <text class="success-title">兑换成功！</text>
+    <text class="success-desc">恭喜您成功兑换礼品</text>
+  </view>
+
+  <!-- 订单信息卡片 -->
+  <view class="order-card card">
+    <!-- 礼品信息 -->
+    <view class="order-card__gift">
+      <view class="order-card__gift-icon">🎁</view>
+      <view class="order-card__gift-info">
+        <text class="order-card__gift-name">{{giftName}}</text>
+        <text class="order-card__gift-points">消耗 {{points}} 积分</text>
+      </view>
+    </view>
+
+    <view class="divider"></view>
+
+    <!-- 订单详情 -->
+    <view class="order-detail">
+      <view class="order-detail__row">
+        <text class="order-detail__label">订单编号</text>
+        <text class="order-detail__value order-detail__value--copy" bindtap="copyOrderId">
+          {{orderId}}
+          <text style="margin-left:8rpx;font-size:22rpx;">复制</text>
+        </text>
+      </view>
+      <view class="order-detail__row">
+        <text class="order-detail__label">下单时间</text>
+        <text class="order-detail__value">{{orderTime}}</text>
+      </view>
+      <view class="order-detail__row">
+        <text class="order-detail__label">订单状态</text>
+        <text class="order-detail__value order-detail__status">
+          {{orderStatusText}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 提示卡片 -->
+  <view class="hint-card card">
+    <view class="hint-card__title">💡 温馨提示</view>
+
+    <!-- 实物商品提示 -->
+    <view wx:if="{{isPhysical}}">
+      <view class="hint-item">
+        <text>• 我们将在 3 个工作日内为您安排发货</text>
+      </view>
+      <view class="hint-item">
+        <text>• 发货后可在「个人中心 - 我的订单」中查看物流信息</text>
+      </view>
+      <view class="hint-item">
+        <text>• 如有疑问请联系店员或到店咨询</text>
+      </view>
+    </view>
+
+    <!-- 虚拟商品提示 -->
+    <view wx:else>
+      <view class="hint-item">
+        <text>• 礼品已自动发放至您的账户，请前往查看使用</text>
+      </view>
+      <view class="hint-item">
+        <text>• 可在「个人中心 - 我的订单」中查看详情</text>
+      </view>
+      <view class="hint-item">
+        <text>• 如有疑问请联系客服</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-group">
+    <button
+      class="btn btn-outline"
+      style="margin-bottom:20rpx;"
+      bindtap="goMall"
+    >继续逛商城</button>
+    <button
+      class="btn btn-primary"
+      bindtap="goOrders"
+    >查看我的订单</button>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

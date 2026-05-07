@@ -1,0 +1,196 @@
+/* 店员工作台样式 */
+.page { min-height: 100vh; background: var(--bg-color); padding-bottom: 60rpx; }
+
+/* 头部 */
+.staff-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  background: linear-gradient(135deg, #1a1a2e, #2d2d5e);
+}
+
+.staff-info__name {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #ffffff;
+  display: block;
+}
+
+.staff-info__date {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 4rpx;
+  display: block;
+}
+
+.staff-status--online { font-size: 24rpx; color: #6bcb77; }
+
+/* 统计卡片网格 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16rpx;
+  padding: 20rpx 24rpx;
+  margin-top: -10rpx;
+}
+
+.stat-card {
+  position: relative;
+  background: var(--bg-white);
+  border-radius: var(--radius-md);
+  padding: 24rpx 16rpx;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.stat-card--primary { border-top: 6rpx solid #ff6b35; }
+.stat-card--success { border-top: 6rpx solid #6bcb77; }
+.stat-card--warning { border-top: 6rpx solid #ffc93c; }
+
+.stat-card__value {
+  font-size: 44rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  display: block;
+}
+
+.stat-card__label {
+  font-size: 22rpx;
+  color: var(--text-muted);
+  margin-top: 4rpx;
+  display: block;
+}
+
+.stat-card__icon {
+  position: absolute;
+  top: 12rpx;
+  right: 14rpx;
+  font-size: 30rpx;
+  opacity: 0.3;
+}
+
+/* 快捷操作 */
+.quick-actions { padding: 8rpx; }
+
+.quick-action-btn {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 16rpx;
+  border-bottom: 1rpx solid var(--border-color);
+}
+.quick-action-btn:last-child { border-bottom: none; }
+.quick-action-btn:active { background: #fafafa; }
+
+.quick-action-btn__icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+.quick-action-btn__icon--orange { background: rgba(255,107,53,0.08); }
+.quick-action-btn__icon--blue { background: rgba(22,119,255,0.08); }
+.quick-action-btn__icon--green { background: rgba(107,203,119,0.08); }
+.quick-action-btn__icon text { font-size: 36rpx; }
+
+.quick-action-btn__info { flex: 1; }
+
+.quick-action-btn__label {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.quick-action-btn__desc {
+  font-size: 22rpx;
+  color: var(--text-muted);
+}
+
+/* 签到记录 */
+.checkin-record {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid var(--border-color);
+}
+.checkin-record:last-child { border-bottom: none; }
+
+.checkin-record__avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+  background: #f0f0f0;
+}
+
+.checkin-record__info { flex: 1; }
+
+.checkin-record__name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: var(--text-primary);
+  display: block;
+}
+
+.checkin-record__course {
+  font-size: 22rpx;
+  color: var(--text-muted);
+  margin-top: 2rpx;
+  display: block;
+}
+
+.checkin-record__points {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: var(--success-color);
+}
+
+/* 待处理订单 */
+.pending-order-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid var(--border-color);
+}
+.pending-order-item:last-child { border-bottom: none; }
+
+.pending-order-item__img {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: var(--radius-sm);
+  margin-right: 16rpx;
+  flex-shrink: 0;
+  background: #f5f5f5;
+}
+
+.pending-order-item__info { flex: 1; }
+
+.pending-order-item__name {
+  font-size: 26rpx;
+  color: var(--text-primary);
+  font-weight: 500;
+  display: block;
+}
+
+.pending-order-item__user {
+  font-size: 22rpx;
+  color: var(--text-muted);
+  margin-top: 2rpx;
+  display: block;
+}
+
+.pending-order-item__points {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.safe-bottom { height: 60rpx; }

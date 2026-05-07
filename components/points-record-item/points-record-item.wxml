@@ -1,0 +1,25 @@
+<!-- 积分流水项组件 -->
+<view class="record-item">
+  <view class="record-item__left">
+    <!-- 图标 -->
+    <view class="record-item__icon record-item__icon--{{item.type}}">
+      <text wx:if="{{item.type === 'income'}}">+</text>
+      <text wx:elif="{{item.type === 'expense'}}">-</text>
+      <text wx:elif="{{item.type === 'adjust'}}">±</text>
+      <text wx:else>⚠</text>
+    </view>
+
+    <!-- 信息 -->
+    <view class="record-item__info">
+      <text class="record-item__source">{{sourceLabel}}</text>
+      <text class="record-item__time">{{item.created_at}}</text>
+    </view>
+  </view>
+
+  <view class="record-item__right">
+    <text
+      class="record-item__amount record-item__amount--{{item.type}}"
+    >{{displayAmount}}</text>
+    <text class="record-item__balance">余额 {{item.balance_after}}</text>
+  </view>
+</view>

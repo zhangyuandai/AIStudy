@@ -1,0 +1,39 @@
+<!-- 礼品卡片组件 -->
+<view class="gift-card" bindtap="onTap">
+  <view class="gift-card__image-wrap">
+    <image
+      class="gift-card__image"
+      src="{{item.cover_image_url}}"
+      mode="aspectFill"
+      lazy-load
+    />
+    <view class="gift-card__badge" wx:if="{{item.stock_count <= 5 && item.stock_count > 0}}">
+      <text>仅剩{{item.stock_count}}件</text>
+    </view>
+    <view class="gift-card__badge gift-card__badge--soldout" wx:if="{{item.stock_count === 0}}">
+      <text>已兑完</text>
+    </view>
+  </view>
+
+  <view class="gift-card__info">
+    <view class="gift-card__name">{{item.name}}</view>
+
+    <view class="gift-card__category" wx:if="{{showCategory && item.category_name}}">
+      <text class="tag tag-primary">{{item.category_name}}</text>
+    </view>
+
+    <view class="gift-card__bottom">
+      <view class="gift-card__price">
+        <text class="gift-card__points-value">{{item.points_price}}</text>
+        <text class="gift-card__points-unit">积分</text>
+        <text class="gift-card__original-price" wx:if="{{item.original_price > 0}}">
+          {{originalPriceText}}
+        </text>
+      </view>
+
+      <view class="gift-card__exchange-count">
+        <text>{{item.exchange_count}}人兑换</text>
+      </view>
+    </view>
+  </view>
+</view>

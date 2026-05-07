@@ -1,0 +1,211 @@
+<!-- 店员端手动调账页面 -->
+<view class="page">
+  <!-- 安全提示横幅 -->
+  <view class="warning-banner">
+    <text class="warning-banner__icon">⚠️</text>
+    <text class="warning-banner__text">
+      调账操作将被记录在审计日志中，请确保操作合理合规
+    </text>
+  </view>
+
+  <!-- 选择学员 -->
+  <view class="section card">
+    <view class="section__header">
+      <text class="section__title">👤 选择学员</text>
+    </view>
+
+    <view class="student-selector" bindtap="showStudentPicker">
+      <view class="student-selector__info" wx:if="{{selectedStudent.user_id}}">
+        <image
+          class="student-selector__avatar"
+          src="{{selectedStudent.avatar || '/assets/icons/default-avatar.png'}}"
+          mode="aspectFill"
+        />
+        <view class="student-selector__detail">
+          <text class="student-selector__name">{{selectedStudent.real_name || selectedStudent.nickname}}</text>
+          <text class="student-selector__points">当前积分：{{selectedStudent.total_points}}</text>
+        </view>
+      </view>
+      <text class="student-selector__placeholder" wx:else>点击选择学员</text>
+
+      <image
+        src="/assets/icons/arrow-right.png"
+        mode="aspectFit"
+        style="width:28rpx;height:28rpx;opacity:0.35;"
+      />
+    </view>
+  </view>
+
+  <!-- 调账操作类型 -->
+  <view class="section card" wx:if="{{selectedStudent.user_id}}">
+    <view class="section__header">
+      <text class="section__title">⚙️ 操作类型</text>
+    </view>
+
+    <view class="type-options">
+      <view
+        class="type-option {{adjustType === 'add' ? 'type-option--active type-option--add' : ''}}"
+        data-type="add"
+        bindtap="onTypeChange"
+      >
+        <text class="type-option__icon">＋</text>
+        <text class="type-option__label">补录积分</text>
+        <text class="type-option__desc">系统漏记、活动奖励等</text>
+      </view>
+
+      <view
+        class="type-option {{adjustType === 'sub' ? 'type-option--active type-option--sub' : ''}}"
+        data-type="sub"
+        bindtap="onTypeChange"
+      >
+        <text class="type-option__icon">－</text>
+        <text class="type-option__label">扣除积分</text>
+        <text class="type-option__desc">误操作纠正、退课退款等</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 积分数量输入 -->
+  <view class="section card" wx:if="{{adjustType && selectedStudent.user_id}}">
+    <view class="section__header">
+      <text class="section__title">🔢 积分数量</text>
+    </view>
+
+    <!-- 快捷金额 -->
+    <view class="quick-amounts">
+      <view
+        class="quick-amount {{amount === item ? 'quick-amount--active' : ''}}"
+        wx:for="{{quickAmounts}}"
+        wx:key="*this"
+        data-value="{{item}}"
+        bindtap="selectQuickAmount"
+      >
+        <text>{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 自定义输入 -->
+    <view class="amount-input-wrap">
+      <text class="amount-input__prefix">{{adjustType === 'sub' ? '-' : '+'}}</text>
+      <input
+        class="amount-input"
+        type="digit"
+        placeholder="输入积分数值（1-500）"
+        value="{{amount}}"
+        bindinput="onAmountInput"
+        maxlength="4"
+      />
+      <text class="amount-input__suffix">积分</text>
+    </view>
+
+    <!-- 预估结果 -->
+    <view class="preview-result {{adjustType === 'sub' ? 'preview-result--danger' : ''}}" wx:if="{{amount > 0 && selectedStudent.total_points !== undefined}}">
+      <text>调整后余额：</text>
+      <text class="preview-result__value">
+        {{previewPoints}}
+      </text>
+    </view>
+  </view>
+
+  <!-- 原因说明 -->
+  <view class="section card" wx:if="{{adjustType && selectedStudent.user_id}}">
+    <view class="section__header">
+      <text class="section__title">📝 原因说明</text>
+      <text class="form-required-hint">(必填，至少5个字)</text>
+    </view>
+
+    <textarea
+      class="reason-textarea"
+      placeholder="请详细说明调账原因..."
+      value="{{reason}}"
+      bindinput="onReasonInput"
+      maxlength="200"
+      auto-height
+    />
+    <text class="char-count">{{reasonLength}}/200</text>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="fixed-bottom-bar bottom-action" wx:if="{{canSubmit}}">
+    <button
+      class="btn btn-primary btn-block btn-submit"
+      loading="{{submitting}}"
+      disabled="{{submitting}}"
+      bindtap="submitAdjust"
+    >
+      {{submitting ? '提交中...' : '确认调账'}}
+    </button>
+  </view>
+
+  <!-- 最近调账记录 -->
+  <view class="section card" style="margin-top:20rpx;">
+    <view class="section__header">
+      <text class="section__title">📋 最近调账记录</text>
+    </view>
+
+    <view class="adjust-record" wx:for="{{recentRecords}}" wx:key="*this">
+      <view class="adjust-record__left">
+        <text class="adjust-record__type {{item.isAdd ? '' : 'adjust-record--sub'}}">
+          {{item.isAdd ? '+': '-'}}{{item.amount}}
+        </text>
+      </view>
+      <view class="adjust-record__center">
+        <text class="adjust-record__name">{{item.studentName}}</text>
+        <text class="adjust-record__reason">{{item.reason}}</text>
+      </view>
+      <text class="adjust-record__time">{{item.time}}</text>
+    </view>
+
+    <empty-state
+      wx:if="{{recentRecords.length === 0}}"
+      text="暂无调账记录"
+    />
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>
+
+<!-- 学员选择器弹窗 -->
+<view class="picker-mask" wx:if="{{showPicker}}" catchtap="hideStudentPicker">
+  <view class="picker-popup" catchtap="">
+    <view class="picker-popup__header">
+      <text class="picker-popup__title">选择学员</text>
+      <text class="picker-popup__close" catchtap="hideStudentPicker">✕</text>
+    </view>
+
+    <view class="picker-search">
+      <input
+        class="picker-search__input"
+        placeholder="搜索学员..."
+        value="{{pickerKeyword}}"
+        bindinput="onPickerSearch"
+      />
+    </view>
+
+    <scroll-view scroll-y class="picker-list">
+      <view
+        class="picker-item {{selectedStudent.user_id === item.user_id ? 'picker-item--active' : ''}}"
+        wx:for="{{filteredStudents}}"
+        wx:key="user_id"
+        catchtap="selectStudent"
+        data-item="{{item}}"
+      >
+        <image
+          class="picker-item__avatar"
+          src="{{item.avatar || '/assets/icons/default-avatar.png'}}"
+          mode="aspectFill"
+        />
+        <view class="picker-item__info">
+          <text class="picker-item__name">{{item.real_name}} @{{item.nickname}}</text>
+          <text class="picker-item__phone">{{item.phone}}</text>
+        </view>
+        <text class="picker-item__points">{{item.total_points}}积分</text>
+      </view>
+
+      <empty-state
+        wx:if="{{filteredStudents.length === 0}}"
+        text="未找到匹配学员"
+      />
+    </scroll-view>
+  </view>
+</view>

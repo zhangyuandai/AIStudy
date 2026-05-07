@@ -1,0 +1,174 @@
+<!-- 店员端兑换订单处理页面 -->
+<view class="page">
+  <!-- 状态筛选 Tab -->
+  <view class="status-tabs">
+    <view
+      class="status-tab {{currentStatus === item.value ? 'status-tab--active' : ''}}"
+      wx:for="{{statusTabs}}"
+      wx:key="value"
+      data-value="{{item.value}}"
+      bindtap="onStatusChange"
+    >
+      <text>{{item.label}}</text>
+      <text class="status-tab__count" wx:if="{{item.count > 0}}">{{item.count}}</text>
+    </view>
+  </view>
+
+  <!-- 订单列表 -->
+  <scroll-view
+    scroll-y
+    class="order-scroll"
+    enhanced
+    show-scrollbar="{{false}}"
+    bindscrolltolower="loadMore"
+  >
+    <!-- 订单卡片 -->
+    <view
+      class="order-card"
+      wx:for="{{orderList}}"
+      wx:key="order_id"
+    >
+      <!-- 卡片头部 -->
+      <view class="order-card__header">
+        <view class="order-card__header-left">
+          <image
+            class="order-card__gift-img"
+            src="{{item.gift_image || '/assets/icons/default-gift.png'}}"
+            mode="aspectFill"
+          />
+          <view class="order-card__gift-info">
+            <text class="order-card__gift-name">{{item.gift_name}}</text>
+            <text class="order-card__user-name">兑换人：{{item.user_name}}</text>
+          </view>
+        </view>
+
+        <view class="order-card__points">
+          <text>-{{item.points_cost}}积分</text>
+        </view>
+      </view>
+
+      <!-- 收货信息（实物商品） -->
+      <view class="order-card__address" wx:if="{{item._isPhysical}}">
+        <text class="order-card__addr-icon">📍</text>
+        <view class="order-card__addr-detail">
+          <text class="order-card__addr-name">{{item.receiver_name}} {{item.receiver_phone}}</text>
+          <text class="order-card__addr-text">{{item.receiver_address}}</text>
+        </view>
+      </view>
+
+      <!-- 虚拟商品提示 -->
+      <view class="order-card__virtual-tag" wx:else>
+        <text>🎫 虚拟商品 - 自动发放至账户</text>
+      </view>
+
+      <!-- 时间和操作区 -->
+      <view class="order-card__footer">
+        <text class="order-card__time">{{item._timeFormatted}}</text>
+
+        <!-- 待发货：显示发货操作 -->
+        <view wx:if="{{currentStatus === 'pending' && item._isPhysical}}" class="order-actions">
+          <button
+            class="btn btn-primary btn-sm"
+            size="mini"
+            data-item="{{item}}"
+            bindtap="showShipDialog"
+          >安排发货</button>
+        </view>
+
+        <!-- 虚拟商品待处理：确认发放 -->
+        <view wx:elif="{{currentStatus === 'pending' && !item._isPhysical}}">
+          <button
+            class="btn btn-success btn-sm"
+            size="mini"
+            data-item="{{item}}"
+            bindtap="confirmVirtualDelivery"
+            loading="{{shippingOrderId === item.order_id}}"
+          >确认发放</button>
+        </view>
+
+        <!-- 已发货/已完成 -->
+        <text class="order-status-tag order-status-tag--done" wx:elif="{{currentStatus !== 'pending'}}">
+          {{item._statusLabel}}
+        </text>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <empty-state
+      wx:if="{{!loading && orderList.length === 0}}"
+      text="{{currentStatus === 'pending' ? '暂无待处理订单' : '暂无订单记录'}}"
+    />
+
+    <!-- 加载更多提示 -->
+    <view class="load-more" wx:if="{{loading}}">
+      <text>加载中...</text>
+    </view>
+    <view class="load-more" wx:if="{{!loading && orderList.length > 0 && !hasMore}}">
+      <text>— 已经到底了 —</text>
+    </view>
+  </scroll-view>
+
+  <view class="safe-bottom"></view>
+</view>
+
+<!-- 发货弹窗 -->
+<view class="ship-mask" wx:if="{{showShipDialog}}" catchtap="hideShipDialog">
+  <view class="ship-popup" catchtap="">
+    <text class="ship-popup__title">📦 安排发货</text>
+
+    <!-- 礼品信息 -->
+    <view class="ship-popup__gift">
+      <image src="{{currentOrder.gift_image}}" mode="aspectFill" class="ship-popup__img" />
+      <text class="ship-popup__name">{{currentOrder.gift_name}}</text>
+    </view>
+
+    <!-- 收货信息 -->
+    <view class="ship-popup__addr card">
+      <text class="ship-popup__addr-label">收货信息</text>
+      <text class="ship-popup__addr-value">
+        {{currentOrder.receiver_name}} · {{currentOrder.receiver_phone}}
+      </text>
+      <text class="ship-popup__addr-detail">{{currentOrder.receiver_address}}</text>
+    </view>
+
+    <!-- 快递表单 -->
+    <view class="ship-form">
+      <view class="form-group">
+        <text class="form-label"><text style="color:#ff4444;">*</text> 快递公司</text>
+        <picker
+          range="{{expressCompanies}}"
+          value="{{selectedExpressIndex}}"
+          bindchange="onExpressPickerChange"
+        >
+          <view class="form-picker">
+            <text>{{expressCompanies[selectedExpressIndex] || '请选择快递公司'}}</text>
+            <text>▼</text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-group">
+        <text class="form-label"><text style="color:#ff4444;">*</text> 运单号</text>
+        <input
+          class="form-input"
+          placeholder="请输入快递运单号"
+          value="{{trackingNumber}}"
+          bindinput="onTrackingInput"
+          maxlength="30"
+        />
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="ship-popup__actions">
+      <button class="btn btn-outline" style="flex:1;" catchtap="hideShipDialog">取消</button>
+      <button
+        class="btn btn-primary"
+        style="flex:1;"
+        loading="{{submittingShip}}"
+        disabled="{{submittingShip || !canSubmitShip}}"
+        catchtap="confirmShip"
+      >确认发货</button>
+    </view>
+  </view>
+</view>

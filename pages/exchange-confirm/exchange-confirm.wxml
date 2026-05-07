@@ -1,0 +1,98 @@
+<!-- 确认兑换页面 -->
+<view class="page">
+  <!-- 礼品摘要 -->
+  <view class="gift-summary card">
+    <image
+      class="gift-summary__img"
+      src="{{gift.cover_image_url}}"
+      mode="aspectFill"
+    />
+    <view class="gift-summary__info">
+      <text class="gift-summary__name">{{gift.name}}</text>
+      <text class="gift-summary__price">消耗 {{gift.points_price}} 积分</text>
+    </view>
+  </view>
+
+  <!-- 积分扣除提示 -->
+  <view class="points-deduct card">
+    <view class="points-deduct__row">
+      <text class="points-deduct__label">当前积分</text>
+      <text class="points-deduct__value">{{availablePoints}}</text>
+    </view>
+    <view class="points-deduct__row">
+      <text class="points-deduct__label">本次扣除</text>
+      <text class="points-deduct__deduct">-{{gift.points_price}}</text>
+    </view>
+    <view class="points-deduct__divider"></view>
+    <view class="points-deduct__row points-deduct__row--highlight">
+      <text class="points-deduct__label">兑换后余额</text>
+      <text class="points-deduct__balance">{{remainingPoints}}</text>
+    </view>
+  </view>
+
+  <!-- 收货信息（实物商品） -->
+  <view class="address-section card" wx:if="{{needAddress}}">
+    <view class="section__header">
+      <text class="section__title">📦 收货信息</text>
+    </view>
+
+    <view class="form-group">
+      <text class="form-group__label"><text style="color:#ff4444;">*</text> 收货人</text>
+      <input
+        class="form-group__input"
+        placeholder="请输入收货人姓名"
+        value="{{form.receiver_name}}"
+        bindinput="onInput"
+        data-field="receiver_name"
+        maxlength="20"
+      />
+    </view>
+
+    <view class="form-group">
+      <text class="form-group__label"><text style="color:#ff4444;">*</text> 手机号</text>
+      <input
+        class="form-group__input"
+        placeholder="请输入手机号"
+        type="number"
+        value="{{form.receiver_phone}}"
+        bindinput="onInput"
+        data-field="receiver_phone"
+        maxlength="11"
+      />
+    </view>
+
+    <view class="form-group">
+      <text class="form-group__label"><text style="color:#ff4444;">*</text> 收货地址</text>
+      <textarea
+        class="form-group__textarea"
+        placeholder="请输入详细收货地址（省市区+街道+门牌号）"
+        value="{{form.receiver_address}}"
+        bindinput="onInput"
+        data-field="receiver_address"
+        maxlength="100"
+        auto-height
+      />
+    </view>
+  </view>
+
+  <!-- 虚拟商品提示 -->
+  <view class="virtual-hint card" wx:else>
+    <view class="virtual-hint__icon">🎫</view>
+    <text class="virtual-hint__title">{{gift.category_name || '虚拟商品'}}</text>
+    <text class="virtual-hint__desc">
+      兑换成功后将自动发放至您的账户，可在「个人中心 - 我的订单」中查看使用。
+    </text>
+  </view>
+
+  <!-- 确认按钮 -->
+  <view class="fixed-bottom-bar bottom-action">
+    <button
+      class="btn btn-primary btn-block btn-confirm {{canSubmit ? '' : 'btn-disabled'}}"
+      loading="{{submitting}}"
+      disabled="{{!canSubmit || submitting}}"
+      bindtap="submitExchange"
+    >
+      {{submitting ? '提交中...' : '确认兑换'}}
+    </button>
+  </view>
+</view>

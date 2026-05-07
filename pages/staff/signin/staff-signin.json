@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "学员签到",
+  "usingComponents": {
+    "empty-state": "/components/empty-state/empty-state"
+  }
+}

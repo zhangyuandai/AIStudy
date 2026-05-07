@@ -1,0 +1,23 @@
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 48rpx;
+}
+
+.empty-state__image {
+  width: 240rpx;
+  height: 240rpx;
+  margin-bottom: 32rpx;
+}
+
+.empty-state__text {
+  color: #999999;
+  font-size: 28rpx;
+  margin-bottom: 24rpx;
+}
+
+.empty-state__action button {
+  min-width: 240rpx;
+}

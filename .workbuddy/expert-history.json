@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "sessions": {
+    "1704357202884f1fa257b574876354d9": [
+      {
+        "expertId": "ShortVideoEditingCoach",
+        "name": "剪神神",
+        "profession": "短视频剪辑教练",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/03-Marketing/ShortVideoEditingCoach/ShortVideoEditingCoach.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/03-Marketing/ShortVideoEditingCoach/ShortVideoEditingCoach_zh.md",
+        "usedAt": 1778142560153,
+        "industryId": "03-Marketing"
+      }
+    ]
+  },
+  "lastUpdated": 1778142626740
+}

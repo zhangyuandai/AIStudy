@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "店员工作台",
+  "usingComponents": {
+    "empty-state": "/components/empty-state/empty-state"
+  }
+}

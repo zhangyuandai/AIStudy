@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  admin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: skate-admin
+    ports:
+      - "8080:80"
+    volumes:
+      - ./logs:/var/log/nginx
+    restart: always
+    networks:
+      - skate-net
+
+networks:
+  skate-net:
+    driver: bridge

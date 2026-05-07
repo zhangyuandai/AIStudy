@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "礼品详情",
+  "usingComponents": {
+    "points-card": "/components/points-card/points-card"
+  }
+}

@@ -1,0 +1,254 @@
+/* 学员签到页面样式 */
+.page { min-height: 100vh; background: var(--bg-color); padding-bottom: 60rpx; }
+
+/* 搜索栏 */
+.search-bar {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  gap: 12rpx;
+  background: var(--bg-white);
+}
+
+.search-bar__input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 72rpx;
+  background: var(--bg-color);
+  border-radius: 36rpx;
+  padding: 0 24rpx;
+  gap: 10rpx;
+}
+.search-bar__icon { font-size: 28rpx; }
+
+.search-bar__input {
+  flex: 1;
+  font-size: 28rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+}
+
+.search-bar__scan-btn {
+  height: 64rpx;
+  padding: 0 20rpx;
+  font-size: 26rpx;
+  white-space: nowrap;
+  border-radius: 32rpx;
+  flex-shrink: 0;
+}
+
+/* 签到统计 */
+.signin-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 16rpx 24rpx;
+  padding: 24rpx 16rpx;
+}
+
+.signin-stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.signin-stat-value {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  display: block;
+}
+.signin-stat-value--done { color: var(--success-color); }
+.signin-stat-label { font-size: 22rpx; color: var(--text-muted); margin-top: 4rpx; display: block; }
+
+.signin-stat-divider {
+  width: 1rpx;
+  height: 48rpx;
+  background: var(--border-color);
+}
+
+/* 列表标题 */
+.section-title {
+  padding: 20rpx 32rpx 8rpx;
+}
+.section-title text {
+  font-size: 24rpx;
+  color: var(--text-muted);
+}
+
+/* 学员卡片 */
+.student-card {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  background: var(--bg-white);
+  border-bottom: 1rpx solid var(--border-color);
+  transition: background 0.15s ease;
+}
+
+.student-card:last-child { border-bottom: none; }
+.student-card--done { opacity: 0.65; }
+
+.student-card__avatar-wrap {
+  position: relative;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.student-card__avatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background: #f0f0f0;
+}
+.student-card__avatar--done {
+  opacity: 0.5;
+}
+
+.student-card__check-badge {
+  position: absolute;
+  bottom: -4rpx;
+  right: -4rpx;
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 50%;
+  background: var(--success-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18rpx;
+  color: #fff;
+  border: 3rpx solid #fff;
+}
+
+.student-card__info { flex: 1; min-width: 0; }
+
+.student-card__name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.student-card__nickname {
+  font-size: 22rpx;
+  color: var(--text-muted);
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.student-card__phone {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+.student-card__points-info {
+  text-align: right;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.student-card__points {
+  font-size: 26rpx;
+  color: var(--primary-color);
+  font-weight: bold;
+  display: block;
+}
+
+.student-card__status {
+  font-size: 22rpx;
+  color: var(--primary-color);
+}
+.student-card__status--done { color: var(--success-color) !important; }
+
+.student-card__action {
+  padding: 8rpx 24rpx;
+  border-radius: 24rpx;
+  background: rgba(255, 107, 53, 0.08);
+  flex-shrink: 0;
+}
+.student-card__action text {
+  font-size: 24rpx;
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.student-card--done .student-card__action { display: none; }
+
+/* 确认弹窗 */
+.confirm-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirm-popup {
+  width: 600rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+
+.confirm-popup__title {
+  display: block;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  padding: 36rpx 28rpx 16rpx;
+}
+
+.confirm-popup__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16rpx 40rpx 28rpx;
+}
+
+.confirm-popup__avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin-bottom: 16rpx;
+  background: #f0f0f0;
+}
+
+.confirm-popup__name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 8rpx;
+}
+
+.confirm-popup__desc {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-bottom: 16rpx;
+}
+
+.confirm-popup__points-hint {
+  padding: 12rpx 28rpx;
+  border-radius: 24rpx;
+  background: rgba(107, 203, 119, 0.08);
+  font-size: 26rpx;
+  color: var(--success-color);
+  font-weight: 500;
+}
+
+.confirm-popup__actions {
+  display: flex;
+  gap: 16rpx;
+  padding: 20rpx 28rpx 32rpx;
+  border-top: 1rpx solid var(--border-color);
+}
+
+.safe-bottom { height: 60rpx; }

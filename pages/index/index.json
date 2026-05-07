@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "滑板公社",
+  "usingComponents": {
+    "points-card": "/components/points-card/points-card"
+  }
+}

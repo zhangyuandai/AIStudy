@@ -1,0 +1,105 @@
+/* 商城页面样式 */
+.page {
+  min-height: 100vh;
+  background: var(--bg-color);
+  padding-bottom: 60rpx;
+}
+
+/* 搜索栏 */
+.search-bar {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  gap: 16rpx;
+  background: var(--bg-white);
+}
+
+.search-bar__input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 72rpx;
+  background: var(--bg-color);
+  border-radius: 36rpx;
+  padding: 0 24rpx;
+  gap: 12rpx;
+}
+
+.search-bar__icon { font-size: 28rpx; }
+
+.search-bar__input {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--text-primary);
+  height: 72rpx;
+  line-height: 72rpx;
+}
+
+.search-bar__clear {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20rpx;
+  color: #666;
+}
+
+.search-bar__cart {
+  position: relative;
+  padding: 8rpx;
+}
+
+.search-bar__cart-badge {
+  position: absolute;
+  top: 2rpx;
+  right: 0;
+  min-width: 32rpx;
+  height: 32rpx;
+  border-radius: 16rpx;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8rpx;
+}
+
+/* 分类 Tab */
+.category-tabs {
+  white-space: nowrap;
+  background: var(--bg-white);
+  padding: 0 8rpx 16rpx 24rpx;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.category-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 10rpx 28rpx;
+  margin-right: 8rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  background: var(--bg-color);
+  transition: all 0.25s ease;
+}
+
+.category-tab--active {
+  background: var(--primary-color);
+  color: #fff;
+  font-weight: bold;
+}
+
+/* 礼品列表 - 双列布局 */
+.gift-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+  padding: 20rpx 24rpx;
+}
+
+.safe-bottom { height: 60rpx; }

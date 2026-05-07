@@ -1,0 +1,16 @@
+<!-- 空状态组件 -->
+<view class="empty-state">
+  <image
+    class="empty-state__image"
+    src="{{image || '/assets/icons/empty.png'}}"
+    mode="aspectFit"
+  />
+  <text class="empty-state__text">{{text || '暂无数据'}}</text>
+  <view class="empty-state__action" wx:if="{{actionText}}">
+    <button
+      class="btn btn-primary btn-outline"
+      size="mini"
+      bindtap="onActionTap"
+    >{{actionText}}</button>
+  </view>
+</view>

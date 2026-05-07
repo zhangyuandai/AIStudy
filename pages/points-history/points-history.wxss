@@ -1,0 +1,56 @@
+/* 积分明细页面样式 */
+.page {
+  min-height: 100vh;
+  background: var(--bg-color);
+  padding-bottom: 60rpx;
+}
+
+/* 筛选栏 */
+.filter-bar { background: var(--bg-white); padding-bottom: 8rpx; }
+
+.filter-tabs {
+  white-space: nowrap;
+  padding: 16rpx 24rpx 0;
+}
+
+.filter-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 10rpx 28rpx;
+  margin-right: 12rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  background: var(--bg-color);
+}
+
+.filter-tab--active {
+  background: var(--primary-color);
+  color: #fff;
+  font-weight: bold;
+}
+
+/* 记录列表 */
+.record-list { background: #fff; margin: 0 24rpx; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); }
+
+/* 按日期分组 */
+.record-date-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 24rpx 12rpx;
+  background: var(--bg-white);
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.record-date-summary {
+  font-size: 22rpx;
+  color: var(--text-muted);
+  font-weight: normal;
+}
+
+.records-wrap { background: var(--bg-white); }
+
+.safe-bottom { height: 60rpx; }

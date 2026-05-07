@@ -1,0 +1,98 @@
+<!-- 个人中心页面 -->
+<view class="page">
+  <!-- 用户信息头部 -->
+  <view class="profile-header">
+    <view class="profile-header__bg"></view>
+    <view class="profile-header__content">
+      <!-- 用户基本信息 -->
+      <view class="user-info" bindtap="editProfile">
+        <image
+          class="user-info__avatar"
+          src="{{userInfo.avatar_url || '/assets/icons/default-avatar.png'}}"
+          mode="aspectFill"
+        />
+        <view class="user-info__detail">
+          <text class="user-info__name">{{userInfo.nickname || userInfo.real_name || '滑板公社用户'}}</text>
+          <view class="user-info__level-row">
+            <text class="tag tag-primary">{{pointsAccount.level_name || '青铜滑手'}}</text>
+            <text class="user-info__id">ID: {{userInfo.user_id}}</text>
+          </view>
+        </view>
+        <image
+          src="/assets/icons/arrow-right-white.png"
+          mode="aspectFit"
+          style="width:32rpx;height:32rpx;opacity:0.6;"
+        />
+      </view>
+
+      <!-- 积分卡片 -->
+      <points-card
+        availablePoints="{{pointsAccount.available_points}}"
+        frozenPoints="{{pointsAccount.frozen_points}}"
+        levelName="{{pointsAccount.level_name}}"
+        levelProgress="{{pointsAccount.level_progress}}"
+        pointsToNextLevel="{{pointsAccount.points_to_next_level}}"
+        showProgress="{{true}}"
+      />
+    </view>
+  </view>
+
+  <!-- 统计数据 -->
+  <view class="stats-bar card">
+    <view
+      class="stats-bar__item"
+      wx:for="{{statItems}}"
+      wx:key="label"
+      bindtap="navigateTo"
+      data-path="{{item.path}}"
+    >
+      <text class="stats-bar__value">{{item.value}}</text>
+      <text class="stats-bar__label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 功能菜单列表 -->
+  <view class="menu-card card">
+    <view
+      class="menu-item"
+      wx:for="{{menuList}}"
+      wx:key="label"
+      bindtap="onMenuTap"
+      data-index="{{index}}"
+    >
+      <view class="menu-item__left">
+        <text class="menu-item__icon">{{item.icon}}</text>
+        <text class="menu-item__label">{{item.label}}</text>
+      </view>
+      <view class="menu-item__right">
+        <text class="menu-item__badge" wx:if="{{item.badge}}">{{item.badge}}</text>
+        <image
+          src="/assets/icons/arrow-right.png"
+          mode="aspectFit"
+          class="menu-item__arrow"
+        />
+      </view>
+    </view>
+  </view>
+
+  <!-- 店员入口（仅店员角色可见） -->
+  <view class="staff-entry card" wx:if="{{isStaff}}" bindtap="goStaffHome">
+    <view class="staff-entry__icon">👨‍💼</view>
+    <view class="staff-entry__info">
+      <text class="staff-entry__title">店员工作台</text>
+      <text class="staff-entry__desc">签到核销、调账、订单处理</text>
+    </view>
+    <image
+      src="/assets/icons/arrow-right.png"
+      mode="aspectFit"
+      class="menu-item__arrow"
+    />
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="footer-info">
+    <text>滑板公社 · 积分管理系统 v1.0.0</text>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

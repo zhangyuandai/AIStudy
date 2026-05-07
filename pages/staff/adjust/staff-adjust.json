@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "手动调账",
+  "usingComponents": {
+    "empty-state": "/components/empty-state/empty-state"
+  }
+}

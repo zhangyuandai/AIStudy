@@ -1,0 +1,92 @@
+<!-- 礼品详情页 -->
+<view class="page">
+  <!-- 商品图片轮播 -->
+  <swiper
+    class="detail-swiper"
+    indicator-dots
+    indicator-color="rgba(255,255,255,0.4)"
+    indicator-active-color="#ff6b35"
+    autoplay
+    circular
+  >
+    <swiper-item wx:for="{{swiperImages}}" wx:key="*this">
+      <image
+        class="detail-swiper__img"
+        src="{{item}}"
+        mode="aspectFill"
+      />
+    </swiper-item>
+  </swiper>
+
+  <!-- 基本信息 -->
+  <view class="info-card">
+    <view class="info-card__header">
+      <!-- 分类标签 -->
+      <text class="tag tag-primary" wx:if="{{gift.category_name}}">{{gift.category_name}}</text>
+      <text class="info-card__name">{{gift.name}}</text>
+    </view>
+
+    <view class="info-card__price-row">
+      <view class="info-card__price">
+        <text class="info-card__points-value">{{gift.points_price}}</text>
+        <text class="info-card__points-unit">积分</text>
+        <text class="info-card__original-price" wx:if="{{gift.original_price > 0}}">
+          原价 {{originalPriceText}}
+        </text>
+      </view>
+      <view class="info-card__exchange-info">
+        <text>{{gift.exchange_count}}人已兑换</text>
+      </view>
+    </view>
+
+    <view class="info-card__stock">
+      <text>库存：{{stockText}}</text>
+      <text wx:if="{{gift.limit_per_user > 0}}" style="margin-left:24rpx;">
+        每人限兑{{gift.limit_per_user}}件
+      </text>
+    </view>
+  </view>
+
+  <!-- 积分余额提示 -->
+  <view class="balance-hint card" wx:if="{{availablePoints !== null}}">
+    <text class="balance-hint__label">当前可用积分：</text>
+    <text class="balance-hint__value {{availablePoints >= gift.points_price ? '' : 'balance-hint--insufficient'}}">
+      {{availablePoints}}
+    </text>
+    <text class="balance-hint__status {{availablePoints >= gift.points_price ? '' : 'balance-hint--insufficient'}}">
+      {{availablePoints >= gift.points_price ? '✅ 可兑换' : '❌ 积分不足'}}
+    </text>
+  </view>
+
+  <!-- 礼品详情描述 -->
+  <view class="desc-card card">
+    <view class="section__header">
+      <text class="section__title">📋 商品详情</text>
+    </view>
+    <text class="desc-card__text">{{gift.description}}</text>
+  </view>
+
+  <!-- 兑换须知 -->
+  <view class="rules-card card">
+    <view class="section__header">
+      <text class="section__title">⚠️ 兑换须知</text>
+    </view>
+    <view class="rules-list">
+      <view class="rule-item" wx:for="{{exchangeRules}}" wx:key="*this">
+        <view class="rule-item__dot"></view>
+        <text class="rule-item__text">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="fixed-bottom-bar bottom-action">
+    <button
+      class="btn btn-primary btn-block btn-exchange {{canExchange ? '' : 'btn-disabled'}}"
+      bindtap="goExchange"
+      disabled="{{!canExchange || gift.stock_count <= 0}}"
+    >
+      {{gift.stock_count <= 0 ? '暂无库存' : (canExchange ? '立即兑换' : '积分不足')}}
+    </button>
+  </view>
+</view>

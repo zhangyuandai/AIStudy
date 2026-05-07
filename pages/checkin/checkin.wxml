@@ -1,0 +1,109 @@
+<!-- 学员端签到页面 -->
+<view class="page">
+  <!-- 签到状态卡片 -->
+  <view class="checkin-card">
+    <view class="checkin-card__circle">
+      <view class="checkin-card__ring">
+        <text class="checkin-card__icon">{{isCheckedIn ? '✅' : '🛹'}}</text>
+      </view>
+    </view>
+
+    <text class="checkin-card__status">{{isCheckedIn ? '今日已签到' : '到店签到上课'}}</text>
+    <text class="checkin-card__desc" wx:if="{{isCheckedIn}}">
+      恭喜获得 +{{todayPoints}} 积分，继续保持！
+    </text>
+    <text class="checkin-card__desc" wx:else>
+      到店后请找店员扫码完成签到
+    </text>
+
+    <view class="checkin-card__points" wx:if="{{isCheckedIn && todayPoints > 0}}">
+      <text>+{{todayPoints}} 积分</text>
+    </view>
+
+    <!-- 签到按钮（学员端仅展示，实际由店员操作） -->
+    <button
+      class="btn btn-primary btn-block"
+      wx:if="{{!isCheckedIn}}"
+      bindtap="showQrcode"
+    >
+      显示签到二维码
+    </button>
+  </view>
+
+  <!-- 二维码弹窗 -->
+  <view class="qrcode-mask" wx:if="{{showQR}}" catchtap="hideQrcode">
+    <view class="qrcode-popup" catchtap="">
+      <text class="qrcode-popup__title">出示二维码给店员扫描</text>
+      <view class="qrcode-box">
+        <!-- 实际项目中这里用 canvas 绘制小程序码 -->
+        <image
+          wx:if="{{qrImage}}"
+          class="qrcode-img"
+          src="{{qrImage}}"
+          mode="aspectFit"
+        />
+        <view class="qrcode-placeholder" wx:else>
+          <text>📱</text>
+          <text class="qrcode-placeholder__text">签到码</text>
+          <text class="qrcode-placeholder__code">{{userInfo.user_id || 'U20260416001'}}</text>
+        </view>
+      </view>
+      <text class="qrcode-popup__tip">有效期：5分钟内有效</text>
+      <button class="btn btn-outline" style="margin-top:24rpx;" bindtap="hideQrcode">关闭</button>
+    </view>
+  </view>
+
+  <!-- 本周签到记录 -->
+  <view class="section card">
+    <view class="section__header">
+      <text class="section__title">📅 本周签到</text>
+    </view>
+
+    <view class="week-calendar">
+      <view
+        class="week-day"
+        wx:for="{{weekDays}}"
+        wx:key="day"
+      >
+        <text class="week-day__name">{{item.name}}</text>
+        <view class="week-day__date-wrap {{item.isToday ? 'week-day__date-wrap--today' : ''}}">
+          <text class="week-day__date">{{item.date}}</text>
+        </view>
+        <view class="week-day__dot week-day__dot--{{item.checkedIn ? 'checked' : item.isToday ? 'pending' : ''}}">
+          <text wx:if="{{item.checkedIn}}">✓</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="week-summary">
+      <text class="week-summary__text">
+        本周已签到 <text class="highlight">{{weekCheckedCount}}</text>/{{weekDays.length}} 天
+      </text>
+    </view>
+  </view>
+
+  <!-- 连续签到奖励提示 -->
+  <view class="section card bonus-card" wx:if="{{streakDays >= 3}}">
+    <view class="bonus-card__icon">🔥</view>
+    <view class="bonus-card__info">
+      <text class="bonus-card__title">连续签到 {{streakDays}} 天！</text>
+      <text class="bonus-card__desc">再坚持 {{4 - (streakDays % 4)}} 天可获得月度全勤奖励 +20积分</text>
+    </view>
+  </view>
+
+  <!-- 签到说明 -->
+  <view class="section card rules-card">
+    <view class="section__header">
+      <text class="section__title">📖 签到规则</text>
+    </view>
+
+    <view class="rule-list">
+      <view class="rule-item" wx:for="{{rules}}" wx:key="*this">
+        <view class="rule-item__dot"></view>
+        <text class="rule-item__text">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

@@ -1,0 +1,51 @@
+<!-- 积分卡片组件 -->
+<view class="points-card" bindtap="onTap">
+  <view class="points-card__header">
+    <text class="points-card__label">我的积分</text>
+    <view class="points-card__level" wx:if="{{levelName}}">
+      <image class="points-card__level-icon" src="/assets/icons/crown.png" mode="aspectFit" />
+      <text class="points-card__level-text">{{levelName}}</text>
+    </view>
+  </view>
+
+  <view class="points-card__main">
+    <view class="points-card__balance-wrap">
+      <text class="points-card__balance">{{availablePoints}}</text>
+      <text class="points-card__unit">积分</text>
+    </view>
+
+    <view class="points-card__frozen" wx:if="{{frozenPoints > 0}}">
+      <text class="points-card__frozen-text">冻结 {{frozenPoints}}</text>
+    </view>
+  </view>
+
+  <!-- 等级进度条 -->
+  <view class="points-card__progress" wx:if="{{showProgress && levelProgress !== undefined}}">
+    <view class="points-card__progress-bar">
+      <view class="points-card__progress-fill" style="width: {{levelProgress}}%"></view>
+    </view>
+    <view class="points-card__progress-info">
+      <text class="points-card__progress-text">
+        距{{nextLevelName || '下一等级'}}还需
+        <text class="points-card__progress-highlight">{{pointsToNextLevel}}积分</text>
+      </text>
+    </view>
+  </view>
+
+  <!-- 统计信息 -->
+  <view class="points-card__stats" wx:if="{{showStats}}">
+    <view class="points-card__stat-item">
+      <text class="points-card__stat-value">{{totalEarned}}</text>
+      <text class="points-card__stat-label">累计获得</text>
+    </view>
+    <view class="points-card__stat-divider"></view>
+    <view class="points-card__stat-item">
+      <text class="points-card__stat-value">{{totalSpent}}</text>
+      <text class="points-card__stat-label">累计消耗</text>
+    </view>
+  </view>
+
+  <!-- 装饰元素 -->
+  <view class="points-card__deco points-card__deco--circle1"></view>
+  <view class="points-card__deco points-card__deco--circle2"></view>
+</view>

@@ -1,0 +1,104 @@
+/* 礼品卡片组件样式 */
+.gift-card {
+  background: #ffffff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gift-card:active {
+  transform: scale(0.97);
+}
+
+.gift-card--disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* 图片区域 */
+.gift-card__image-wrap {
+  position: relative;
+  width: 100%;
+  height: 320rpx;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.gift-card__image {
+  width: 100%;
+  height: 100%;
+}
+
+/* 角标 */
+.gift-card__badge {
+  position: absolute;
+  top: 12rpx;
+  right: 12rpx;
+  background: linear-gradient(135deg, #ff6b35, #ff8c5a);
+  color: #fff;
+  font-size: 20rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 20rpx;
+}
+
+.gift-card__badge--soldout {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* 信息区 */
+.gift-card__info {
+  padding: 20rpx;
+}
+
+.gift-card__name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #1a1a2e;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin-bottom: 10rpx;
+}
+
+.gift-card__category {
+  margin-bottom: 12rpx;
+}
+
+/* 价格区 */
+.gift-card__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gift-card__price {
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+}
+
+.gift-card__points-value {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #ff6b35;
+}
+
+.gift-card__points-unit {
+  font-size: 22rpx;
+  color: #ff6b35;
+}
+
+.gift-card__original-price {
+  font-size: 20rpx;
+  color: #999999;
+  text-decoration: line-through;
+  margin-left: 8rpx;
+}
+
+.gift-card__exchange-count text {
+  font-size: 20rpx;
+  color: #bbbbbb;
+}

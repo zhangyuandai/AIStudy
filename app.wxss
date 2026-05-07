@@ -1,0 +1,189 @@
+/* ===== 全局样式变量 ===== */
+page {
+  --primary-color: #ff6b35;
+  --primary-dark: #e55a2b;
+  --primary-light: #ff8c5a;
+  --secondary-color: #1a1a2e;
+  --secondary-light: #2d2d4a;
+  --accent-color: #ffd93d;
+  --success-color: #6bcb77;
+  --danger-color: #ff6b6b;
+  --warning-color: #ffc93c;
+  --text-primary: #1a1a2e;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --bg-color: #f5f5f5;
+  --bg-white: #ffffff;
+  --border-color: #eeeeee;
+  --shadow-sm: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+  --radius-sm: 8rpx;
+  --radius-md: 16rpx;
+  --radius-lg: 24rpx;
+  --radius-round: 50%;
+
+  background-color: var(--bg-color);
+  font-size: 28rpx;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* ===== 基础样式重置 ===== */
+view, text, image, scroll-view {
+  box-sizing: border-box;
+}
+
+/* ===== 通用工具类 ===== */
+.container {
+  min-height: 100vh;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.text-primary { color: var(--primary-color); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.text-white { color: #ffffff; }
+.text-bold { font-weight: bold; }
+
+.bg-primary { background-color: var(--primary-color); }
+.bg-white { background-color: var(--bg-white); }
+.bg-secondary { background-color: var(--secondary-color); }
+
+/* 安全区域 */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 卡片通用 */
+.card {
+  background: var(--bg-white);
+  border-radius: var(--radius-md);
+  padding: 24rpx;
+  margin: 20rpx 24rpx;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 分割线 */
+.divider {
+  height: 1rpx;
+  background: var(--border-color);
+  margin: 20rpx 0;
+}
+
+/* 按钮通用 */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  border-radius: var(--radius-md);
+  font-size: 32rpx;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  line-height: 88rpx;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: #fff;
+}
+
+.btn-primary::after { border: none; }
+
+.btn-outline {
+  background: transparent;
+  border: 2rpx solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-outline::after { border: none; }
+
+.btn-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.btn-block {
+  width: 100%;
+  margin: 20rpx 24rpx;
+}
+
+/* 标签 */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  line-height: 36rpx;
+}
+
+.tag-primary {
+  background: rgba(255, 107, 53, 0.12);
+  color: var(--primary-color);
+}
+
+.tag-success {
+  background: rgba(107, 203, 119, 0.12);
+  color: var(--success-color);
+}
+
+.tag-warning {
+  background: rgba(255, 201, 60, 0.12);
+  color: var(--warning-color);
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 48rpx;
+}
+
+.empty-state image {
+  width: 240rpx;
+  height: 240rpx;
+  margin-bottom: 32rpx;
+}
+
+.empty-state text {
+  color: var(--text-muted);
+  font-size: 28rpx;
+}
+
+/* 加载更多 */
+.load-more {
+  text-align: center;
+  padding: 32rpx 0;
+  color: var(--text-muted);
+  font-size: 26rpx;
+}
+
+/* 固定底部按钮 */
+.fixed-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16rpx 24rpx;
+  background: var(--bg-white);
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.06);
+  z-index: 100;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+}

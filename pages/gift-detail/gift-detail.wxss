@@ -1,0 +1,126 @@
+/* 礼品详情页样式 */
+.page {
+  min-height: 100vh;
+  background: var(--bg-color);
+  padding-bottom: 160rpx;
+}
+
+/* 轮播图 */
+.detail-swiper {
+  width: 100%;
+  height: 680rpx;
+  background: #f5f5f5;
+}
+
+.detail-swiper__img {
+  width: 100%;
+  height: 100%;
+}
+
+/* 信息卡片 */
+.info-card {
+  background: var(--bg-white);
+  padding: 28rpx 32rpx;
+  margin-bottom: 16rpx;
+}
+
+.info-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.info-card__name {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.info-card__price-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+
+.info-card__price {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
+.info-card__points-value {
+  font-size: 52rpx;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.info-card__points-unit {
+  font-size: 28rpx;
+  color: var(--primary-color);
+}
+
+.info-card__original-price {
+  font-size: 24rpx;
+  color: var(--text-muted);
+  text-decoration: line-through;
+  margin-left: 4rpx;
+}
+
+.info-card__exchange-info text {
+  font-size: 24rpx;
+  color: var(--text-muted);
+}
+
+.info-card__stock {
+  display: flex;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+/* 积分余额提示 */
+.balance-hint {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 28rpx;
+  gap: 10rpx;
+  background: linear-gradient(135deg, #fff9e6, #fff3d6);
+}
+
+.balance-hint__label { font-size: 26rpx; color: var(--text-secondary); }
+.balance-hint__value { font-size: 36rpx; font-weight: bold; color: var(--primary-color); }
+.balance-hint--insufficient { color: #ff4444 !important; }
+
+.balance-hint__status { font-size: 26rpx; margin-left: auto; }
+
+/* 描述 */
+.desc-card .section__header { margin-bottom: 16rpx; }
+
+.desc-card__text {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+/* 兑换须知规则 */
+.rules-list { padding: 0 8rpx; }
+.rule-item { display: flex; align-items: flex-start; gap: 14rpx; padding: 14rpx 0; }
+.rule-item:last-child { padding-bottom: 0; }
+.rule-item__dot { width: 12rpx; height: 12rpx; border-radius: 50%; background: var(--warning-color); margin-top: 15rpx; flex-shrink: 0; }
+.rule-item__text { font-size: 26rpx; color: var(--text-secondary); line-height: 1.7; }
+
+/* 底部操作栏 */
+.bottom-action {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+}
+
+.btn-exchange {
+  height: 96rpx;
+  line-height: 96rpx;
+  border-radius: 48rpx;
+  font-size: 34rpx;
+}

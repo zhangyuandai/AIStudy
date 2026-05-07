@@ -1,0 +1,79 @@
+<!-- 积分明细页面 -->
+<view class="page">
+  <!-- 积分概览卡片 -->
+  <points-card
+    availablePoints="{{pointsAccount.available_points}}"
+    frozenPoints="{{pointsAccount.frozen_points}}"
+    totalEarned="{{pointsAccount.total_earned}}"
+    totalSpent="{{pointsAccount.total_spent}}"
+    levelName="{{pointsAccount.level_name}}"
+    showProgress="{{false}}"
+    showStats="{{true}}"
+    bind:taptap=""
+  />
+
+  <!-- 筛选栏 -->
+  <view class="filter-bar">
+    <scroll-view scroll-x class="filter-tabs" enhanced show-scrollbar="{{false}}">
+      <view
+        class="filter-tab {{currentType === item.value ? 'filter-tab--active' : ''}}"
+        wx:for="{{typeTabs}}"
+        wx:key="value"
+        data-value="{{item.value}}"
+        bindtap="onTypeChange"
+      >
+        <text>{{item.label}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 流水列表 -->
+  <view class="record-list" wx:if="{{recordList.length > 0}}">
+    <view class="record-date-group" wx:if="{{groupedRecords.length > 0}}">
+      <block wx:for="{{groupedRecords}}" wx:key="date">
+        <!-- 日期标题 -->
+        <view class="record-date-header">
+          <text>{{item.dateLabel}}</text>
+          <text class="record-date-summary">{{item.summary}}</text>
+        </view>
+
+        <!-- 该日期的记录 -->
+        <view class="records-wrap">
+          <points-record-item
+            wx:for="{{item.records}}"
+            wx:key="record_id"
+            item="{{item}}"
+          />
+        </view>
+      </block>
+    </view>
+
+    <!-- 不分组模式（简单列表） -->
+    <view wx:else>
+      <points-record-item
+        wx:for="{{recordList}}"
+        wx:key="record_id"
+        item="{{item}}"
+      />
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <empty-state
+    wx:elif="{{!loading}}"
+    text="暂无积分流水记录"
+    actionText="去赚积分"
+  />
+
+  <!-- 加载状态 -->
+  <view class="load-more" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 底部提示 -->
+  <view class="load-more" wx:if="{{!loading && recordList.length > 0 && !hasMore}}">
+    <text>— 已经到底了 —</text>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

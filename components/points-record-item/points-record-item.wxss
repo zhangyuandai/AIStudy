@@ -1,0 +1,87 @@
+.record-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 24rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.record-item:last-child {
+  border-bottom: none;
+}
+
+.record-item__left {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.record-item__icon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.record-item__icon--income {
+  background: linear-gradient(135deg, #6bcb77, #4ade80);
+}
+
+.record-item__icon--expense {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+}
+
+.record-item__icon--adjust {
+  background: linear-gradient(135deg, #ffc93c, #ffd93d);
+}
+
+.record-item__icon--expire {
+  background: linear-gradient(135deg, #999999, #bbbbbb);
+}
+
+.record-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.record-item__source {
+  font-size: 28rpx;
+  color: #1a1a2e;
+  font-weight: 500;
+}
+
+.record-item__time {
+  font-size: 22rpx;
+  color: #999999;
+}
+
+.record-item__right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4rpx;
+}
+
+.record-item__amount {
+  font-size: 34rpx;
+  font-weight: bold;
+}
+
+.record-item__amount--income { color: #6bcb77; }
+.record-item__amount--expense { color: #ff6b6b; }
+.record-item__amount--adjust { color: #ffc93c; }
+.record-item__amount--expire { color: #999999; }
+
+.record-item__balance {
+  font-size: 22rpx;
+  color: #bbbbbb;
+}

@@ -1,0 +1,124 @@
+<!-- 店员工作台首页 -->
+<view class="page">
+  <!-- 顶部信息栏 -->
+  <view class="staff-header">
+    <view class="staff-info">
+      <text class="staff-info__name">店员工作台</text>
+      <text class="staff-info__date">{{currentDate}}</text>
+    </view>
+    <view class="staff-header__actions">
+      <text class="staff-status staff-status--online">● 在线</text>
+    </view>
+  </view>
+
+  <!-- 今日统计卡片 -->
+  <view class="stats-grid">
+    <view
+      class="stat-card stat-card--primary"
+      bindtap="goSignin"
+    >
+      <text class="stat-card__value">{{dashboard.today_checkin_count || 0}}</text>
+      <text class="stat-card__label">今日签到</text>
+      <text class="stat-card__icon">✅</text>
+    </view>
+
+    <view class="stat-card stat-card--success">
+      <text class="stat-card__value">{{weekPointsText}}</text>
+      <text class="stat-card__label">本周发放积分</text>
+      <text class="stat-card__icon">💰</text>
+    </view>
+
+    <view class="stat-card stat-card--warning" bindtap="goOrders">
+      <text class="stat-card__value">{{dashboard.pending_orders || 0}}</text>
+      <text class="stat-card__label">待处理订单</text>
+      <text class="stat-card__icon">📦</text>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="section card">
+    <view class="section__header">
+      <text class="section__title">⚡ 快捷操作</text>
+    </view>
+
+    <view class="quick-actions">
+      <view class="quick-action-btn" bindtap="goSignin">
+        <view class="quick-action-btn__icon quick-action-btn__icon--orange">
+          <text>📝</text>
+        </view>
+        <text class="quick-action-btn__label">学员签到</text>
+        <text class="quick-action-btn__desc">扫码/手动签到发积分</text>
+      </view>
+
+      <view class="quick-action-btn" bindtap="goAdjust">
+        <view class="quick-action-btn__icon quick-action-btn__icon--blue">
+          <text>⚙️</text>
+        </view>
+        <text class="quick-action-btn__label">手动调账</text>
+        <text class="quick-action-btn__desc">补录/扣除学员积分</text>
+      </view>
+
+      <view class="quick-action-btn" bindtap="goOrders">
+        <view class="quick-action-btn__icon quick-action-btn__icon--green">
+          <text>📋</text>
+        </view>
+        <text class="quick-action-btn__label">兑换处理</text>
+        <text class="quick-action-btn__desc">查看并处理兑换订单</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近签到记录 -->
+  <view class="section card" wx:if="{{recentCheckins.length > 0}}">
+    <view class="section__header">
+      <text class="section__title">📋 最近签到</text>
+      <text class="section__more" bindtap="goSignin">全部记录</text>
+    </view>
+
+    <view
+      class="checkin-record"
+      wx:for="{{recentCheckins}}"
+      wx:key="record_id"
+    >
+      <image
+        class="checkin-record__avatar"
+        src="{{item.avatar || '/assets/icons/default-avatar.png'}}"
+        mode="aspectFill"
+      />
+      <view class="checkin-record__info">
+        <text class="checkin-record__name">{{item.student_name}}</text>
+        <text class="checkin-record__course">{{item.course_name}} · {{item.time}}</text>
+      </view>
+      <view class="checkin-record__points">
+        <text>+{{item.points}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 待办订单预览 -->
+  <view class="section card" wx:if="{{pendingOrders.length > 0}}">
+    <view class="section__header">
+      <text class="section__title">📦 待处理订单</text>
+      <text class="section__more" bindtap="goOrders">去处理</text>
+    </view>
+
+    <view
+      class="pending-order-item"
+      wx:for="{{pendingOrders}}"
+      wx:key="order_id"
+    >
+      <image
+        class="pending-order-item__img"
+        src="{{item.gift_image}}"
+        mode="aspectFill"
+      />
+      <view class="pending-order-item__info">
+        <text class="pending-order-item__name">{{item.gift_name}}</text>
+        <text class="pending-order-item__user">{{item.user_name}} · {{item.timeFormatted}}</text>
+      </view>
+      <text class="pending-order-item__points">-{{item.points_cost}}</text>
+    </view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

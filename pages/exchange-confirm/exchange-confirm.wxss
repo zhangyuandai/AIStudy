@@ -1,0 +1,130 @@
+/* 确认兑换页面样式 */
+.page {
+  min-height: 100vh;
+  background: var(--bg-color);
+  padding-bottom: 160rpx;
+}
+
+/* 礼品摘要 */
+.gift-summary {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 28rpx;
+}
+
+.gift-summary__img {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  background: #f5f5f5;
+}
+
+.gift-summary__info { flex: 1; }
+
+.gift-summary__name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 8rpx;
+  line-height: 1.4;
+}
+
+.gift-summary__price {
+  font-size: 28rpx;
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+/* 积分扣除 */
+.points-deduct { padding: 28rpx; }
+
+.points-deduct__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14rpx 0;
+}
+
+.points-deduct__row--highlight {
+  padding-top: 18rpx;
+  border-top: 2rpx dashed var(--border-color);
+  margin-top: 4rpx;
+}
+
+.points-deduct__label { font-size: 28rpx; color: var(--text-secondary); }
+.points-deduct__value { font-size: 32rpx; font-weight: bold; color: var(--text-primary); }
+.points-deduct__deduct { font-size: 34rpx; font-weight: bold; color: #ff4444; }
+.points-deduct__balance { font-size: 38rpx; font-weight: bold; color: var(--primary-color); }
+
+.points-deduct__divider { height: 1rpx; background: var(--border-color); margin: 4rpx 0; }
+
+/* 收货信息表单 */
+.address-section .section__header { margin-bottom: 24rpx; }
+
+.form-group { margin-bottom: 24rpx; }
+.form-group:last-child { margin-bottom: 0; }
+
+.form-group__label {
+  display: block;
+  font-size: 26rpx;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+
+.form-group__input,
+.form-group__textarea {
+  width: 100%;
+  height: 80rpx;
+  padding: 0 20rpx;
+  background: var(--bg-color);
+  border-radius: var(--radius-sm);
+  font-size: 28rpx;
+  color: var(--text-primary);
+  box-sizing: border-box;
+  border: 2rpx solid transparent;
+}
+
+.form-group__textarea {
+  height: auto;
+  min-height: 140rpx;
+  padding: 20rpx;
+  line-height: 1.6;
+}
+
+.form-group__input:focus,
+.form-group__textarea:focus {
+  border-color: var(--primary-color);
+}
+
+/* 虚拟商品提示 */
+.virtual-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48rpx 36rpx;
+  gap: 16rpx;
+  background: linear-gradient(135deg, #e8f4fd, #f0f7ff);
+}
+
+.virtual-hint__icon { font-size: 64rpx; }
+
+.virtual-hint__title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #1677ff;
+}
+
+.virtual-hint__desc {
+  font-size: 26rpx;
+  color: #5599dd;
+  line-height: 1.7;
+}
+
+/* 底部按钮 */
+.bottom-action { padding: 16rpx 24rpx; }
+.btn-confirm { height: 96rpx; line-height: 96rpx; border-radius: 48rpx; font-size: 34rpx; }

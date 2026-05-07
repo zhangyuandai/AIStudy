@@ -1,0 +1,132 @@
+<!-- 学员端首页 - 仪表盘 -->
+<view class="page">
+  <!-- 顶部区域：积分卡片 + 用户信息 -->
+  <view class="header-section">
+    <view class="user-bar" wx:if="{{userInfo}}">
+      <image class="user-bar__avatar" src="{{userInfo.avatar_url}}" mode="aspectFill" />
+      <view class="user-bar__info">
+        <text class="user-bar__name">{{userInfo.nickname || userInfo.real_name}}</text>
+        <text class="user-bar__greeting">{{greetingText}}，继续滑起来！🛹</text>
+      </view>
+      <view class="user-bar__notice" bindtap="goProfile">
+        <image src="/assets/icons/notify.png" mode="aspectFit" style="width:44rpx;height:44rpx;" />
+      </view>
+    </view>
+
+    <!-- 积分卡片 -->
+    <points-card
+      availablePoints="{{pointsAccount.available_points}}"
+      frozenPoints="{{pointsAccount.frozen_points}}"
+      totalEarned="{{pointsAccount.total_earned}}"
+      totalSpent="{{pointsAccount.total_spent}}"
+      levelName="{{pointsAccount.level_name}}"
+      levelProgress="{{pointsAccount.level_progress}}"
+      pointsToNextLevel="{{pointsAccount.points_to_next_level}}"
+      showProgress="{{true}}"
+      showStats="{{true}}"
+      bind:taptap="goPointsHistory"
+    />
+  </view>
+
+  <!-- 今日任务 -->
+  <view class="section card" wx:if="{{todayTasks.length > 0}}">
+    <view class="section__header">
+      <text class="section__title">📋 今日任务</text>
+      <text class="section__more" bindtap="goCheckin">去完成</text>
+    </view>
+
+    <view
+      class="task-item"
+      wx:for="{{todayTasks}}"
+      wx:key="task_id"
+    >
+      <view class="task-item__icon {{item.is_completed ? 'task-item__icon--done' : ''}}">
+        <text>{{item.is_completed ? '✅' : item.icon}}</text>
+      </view>
+      <view class="task-item__info">
+        <text class="task-item__title {{item.is_completed ? 'task-item__title--done' : ''}}">{{item.title}}</text>
+        <text class="task-item__desc">{{item.desc}}</text>
+      </view>
+      <view class="task-item__reward" wx:if="{{item.points_reward > 0 && !item.is_completed}}">
+        <text>+{{item.points_reward}}积分</text>
+      </view>
+      <view class="task-item__done-tag" wx:if="{{item.is_completed}}">
+        <text>已完成</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="section card quick-entry">
+    <view
+      class="quick-entry__item"
+      wx:for="{{quickEntries}}"
+      wx:key="path"
+      bindtap="navigateTo"
+      data-path="{{item.path}}"
+    >
+      <view class="quick-entry__icon-wrap" style="background:{{item.bg}}">
+        <text class="quick-entry__emoji">{{item.icon}}</text>
+      </view>
+      <text class="quick-entry__label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 排行榜预览 -->
+  <view class="section card" wx:if="{{rankingList.length > 0}}">
+    <view class="section__header">
+      <text class="section__title">🏆 积分排行榜</text>
+      <text class="section__more" bindtap="goRanking">查看全部</text>
+    </view>
+
+    <view
+      class="rank-item"
+      wx:for="{{top3Ranking}}"
+      wx:key="user_id"
+    >
+      <view class="rank-item__pos rank-item__pos--{{index === 0 ? 'gold' : index === 1 ? 'silver' : 'bronze'}}">
+        <text>{{index + 1}}</text>
+      </view>
+      <image
+        class="rank-item__avatar"
+        src="{{item.avatar || '/assets/icons/default-avatar.png'}}"
+        mode="aspectFill"
+      />
+      <text class="rank-item__name">{{item.nickname}}</text>
+      <text class="rank-item__points">{{item.total_points}}积分</text>
+      <view class="rank-item__me" wx:if="{{item.is_me}}">
+        <text>我</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 热门礼品推荐 -->
+  <view class="section card" wx:if="{{hotGifts.length > 0}}">
+    <view class="section__header">
+      <text class="section__title">🎁 热门兑换</text>
+      <text class="section__more" bindtap="goMall">更多</text>
+    </view>
+
+    <scroll-view scroll-x class="hot-gifts-scroll" enhanced show-scrollbar="{{false}}">
+      <view class="hot-gifts-list">
+        <view
+          class="hot-gift-card"
+          wx:for="{{hotGifts}}"
+          wx:key="gift_id"
+          bindtap="goGiftDetail"
+          data-id="{{item.gift_id}}"
+        >
+          <image class="hot-gift-card__img" src="{{item.cover_image_url}}" mode="aspectFill" lazy-load />
+          <text class="hot-gift-card__name">{{item.name}}</text>
+          <view class="hot-gift-card__price">
+            <text class="hot-gift-card__pts">{{item.points_price}}</text>
+            <text>积分</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 底部安全距离 -->
+  <view class="safe-bottom"></view>
+</view>

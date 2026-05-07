@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "积分商城",
+  "usingComponents": {
+    "gift-card": "/components/gift-card/gift-card",
+    "empty-state": "/components/empty-state/empty-state"
+  }
+}

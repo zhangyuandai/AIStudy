@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "我的",
+  "usingComponents": {
+    "points-card": "/components/points-card/points-card"
+  }
+}
