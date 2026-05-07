@@ -3,12 +3,21 @@ App({
     userInfo: null,
     isLoggedIn: false,
     userRole: 'student', // 'student' | 'staff' | 'admin'
-    baseUrl: 'https://api.skate-club.com', // 替换为实际API地址
+    baseUrl: '', // 由 onLaunch 从 envConfig 动态设置
     token: null,
     _pointsAccount: null, // 缓存积分账户
   },
 
   onLaunch() {
+    // 初始化 API 地址（根据环境自动切换）
+    try {
+      const env = require('./utils/envConfig');
+      this.globalData.baseUrl = env.API_BASE_URL;
+      console.log('[App] API地址:', this.globalData.baseUrl, '| 环境:', env.ENV);
+    } catch (e) {
+      console.warn('[App] 环境配置加载失败，使用默认地址');
+      this.globalData.baseUrl = 'https://api.skate-club.com';
+    }
     // 检查登录态
     this.checkLoginStatus();
     // 检查更新

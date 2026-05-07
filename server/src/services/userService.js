@@ -4,22 +4,50 @@
 const db = require('../config/database');
 const { signUserToken } = require('../utils/token');
 const logger = require('../utils/logger');
+const https = require('https');
+
+// 微信错误码映射
+const WX_ERROR_MAP = {
+  '-1':              { msg: '微信系统繁忙，请稍后重试', retry: true },
+  '40013':           { msg: '无效的 AppID', retry: false },
+  '40029':           { msg: '无效的 code', retry: false },
+  '45011':           { msg: 'API 频率限制，请稍后重试', retry: true },
+  '40163':           { msg: 'code 已被使用（重复提交）', retry: false },
+  '40226':           { msg: '高风险等级，用户需手机号验证', retry: false },
+  '1004':            { msg: '应用已下架', retry: false },
+};
 
 class UserService {
   /**
    * 微信登录：code → session_key + openid → 查找或创建用户
+   *
+   * 流程:
+   *   1. 用 code 调用 wx.code2Session 换取 openid (+ session_key)
+   *   2. 根据 openid 查找用户，不存在则注册
+   *   3. 签发 JWT Token 返回
+   *
+   * 开发模式：若未配置 WX_APP_ID，自动走模拟登录（方便本地开发）
    */
   async wxLogin(code) {
-    // TODO: 生产环境替换为真实微信 code2session 调用
-    // const { appid, secret } = config.wechat;
-    // const url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${secret}&js_code=${code}&grant_type=authorization_code`;
-    // const res = await axios.get(url);
+    if (!code || typeof code !== 'string') {
+      throw { message: '缺少登录凭证 code', code: -1, statusCode: 400 };
+    }
 
-    // 开发模式：模拟返回
-    let openid = `dev_openid_${code.slice(0, 8)}`;
-    if (process.env.NODE_ENV === 'development' && !code.startsWith('mock')) {
-      // 开发环境用 code 的前8位作为模拟openid
+    const config = require('../config/index').wechat;
+    let openid, unionid;
+
+    // ===== 真实微信接口调用 =====
+    if (config.appId && config.appSecret) {
+      const wxData = await this._callCode2Session(config.appId, config.appSecret, code);
+      openid = wxData.openid;
+      unionid = wxData.unionid || '';
+      logger.info(`[UserService] 微信登录成功 openid=${openid}`);
+    } else {
+      // ===== 开发模式模拟 =====
+      logger.warn('[UserService] ⚠️ 未配置微信 AppID/AppSecret，使用开发模式模拟登录');
       openid = `dev_${Date.now()}_${code.slice(0, 6)}`;
+      // 开发模式下每次生成新 openid（方便测试多用户场景）
+      // 如需固定测试用户，可用 code === 'test_user_1' 等特殊值
     }
 
     // 查找或创建用户
@@ -156,6 +184,62 @@ class UserService {
   async getRegisterReward() {
     const row = await db.queryOne("SELECT CAST(config_value AS UNSIGNED) as points FROM sc_system_config WHERE group_key='points' AND config_key='register_reward'");
     return { points: parseInt(row?.points || 50) };
+  }
+
+  /**
+   * 调用微信 code2Session 接口
+   * @param {string} appid
+   * @param {string} secret
+   * @param {string} code
+   * @returns {{ openid: string, session_key: string, unionid?: string }}
+   */
+  _callCode2Session(appid, secret, code) {
+    const url = `https://api.weixin.qq.com/sns/jscode2session?appid=${encodeURIComponent(appid)}&secret=${encodeURIComponent(secret)}&js_code=${encodeURIComponent(code)}&grant_type=authorization_code`;
+
+    return new Promise((resolve, reject) => {
+      https.get(url, { timeout: 10000 }, (res) => {
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => {
+          try {
+            const json = JSON.parse(data);
+            // 微信返回错误
+            if (json.errcode) {
+              const errInfo = WX_ERROR_MAP[String(json.errcode)] || { msg: json.errmsg || '微信登录失败', retry: false };
+              logger.error(`[WX] code2Session 错误: ${json.errcode} - ${errInfo.msg}`);
+              reject({
+                message: errInfo.msg,
+                code: 'WX_' + String(json.errcode),
+                statusCode: 400,
+                wxErrcode: json.errcode,
+                retryable: errInfo.retry,
+              });
+              return;
+            }
+            // 正常返回 openid + session_key
+            if (!json.openid) {
+              logger.error('[WX] code2Session 返回无 openid:', data.slice(0, 200));
+              reject({ message: '微信登录失败：未获取到用户标识', code: -1, statusCode: 500 });
+              return;
+            }
+            resolve({
+              openid: json.openid,
+              session_key: json.session_key,
+              unionid: json.unionid || '',
+            });
+          } catch (e) {
+            logger.error('[WX] code2Session 解析失败:', e.message);
+            reject({ message: '微信服务异常', code: -1, statusCode: 502 });
+          }
+        });
+      }).on('error', (err) => {
+        logger.error('[WX] code2Session 网络请求失败:', err.message);
+        reject({ message: '微信服务连接失败', code: -1, statusCode: 503, retryable: true });
+      }).on('timeout', () => {
+        logger.error('[WX] code2Session 请求超时');
+        reject({ message: '微信服务响应超时', code: -1, statusCode: 504, retryable: true });
+      });
+    });
   }
 }
 

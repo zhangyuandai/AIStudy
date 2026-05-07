@@ -50,7 +50,7 @@
         </el-form-item>
       </el-form>
 
-      <p class="login-tip">演示账号: admin / admin123</p>
+      <p class="login-tip">默认账号: admin / admin123</p>
     </div>
   </div>
 </template>
@@ -59,6 +59,7 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import request, { requestWithLoading } from '../../utils/request'
 
 const router = useRouter()
 const formRef = ref(null)
@@ -74,7 +75,7 @@ const rules = {
   username: [{ required: true, message: '请输入账号', trigger: 'blur' }],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, message: '密码至少6位', trigger: 'blur' },
+    { min: 4, message: '密码至少4位', trigger: 'blur' },
   ],
 }
 
@@ -84,22 +85,25 @@ async function handleLogin() {
 
   loading.value = true
 
-  // 模拟登录（实际对接后端 API）
-  setTimeout(() => {
-    if (form.username === 'admin' && form.password === 'admin123') {
-      localStorage.setItem('admin_token', 'mock_token_' + Date.now())
-      localStorage.setItem('admin_user', JSON.stringify({
-        username: 'admin',
-        name: '系统管理员',
-        role: 'super_admin',
-      }))
-      ElMessage.success('登录成功')
-      router.push('/')
-    } else {
-      ElMessage.error('账号或密码错误')
-    }
+  try {
+    const data = await requestWithLoading({
+      url: '/api/auth/admin/login',
+      method: 'POST',
+      data: { username: form.username, password: form.password },
+    }, '登录中...')
+
+    // 存储凭证
+    localStorage.setItem('admin_token', data.token)
+    localStorage.setItem('admin_user', JSON.stringify(data.staff))
+
+    ElMessage.success('登录成功')
+    router.push('/')
+  } catch (err) {
+    // 错误已由响应拦截器处理
+    console.error('[Login] 登录失败:', err.response?.data || err.message)
+  } finally {
     loading.value = false
-  }, 800)
+  }
 }
 </script>
 

@@ -3,8 +3,10 @@
  * 所有接口调用统一通过此模块
  */
 const app = getApp();
+const env = require('./envConfig');
 
-const BASE_URL = 'https://api.skate-club.com'; // 替换为实际API地址
+// 自动根据环境选择 API 地址
+const BASE_URL = env.API_BASE_URL;
 
 /**
  * 统一请求封装
